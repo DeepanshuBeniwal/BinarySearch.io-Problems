@@ -1,0 +1,60 @@
+Given a singly linked list of integers, sort the nodes by their values in ascending order.
+
+Example 1
+Input
+
+node = 14 → 13 → 10 → null
+Output
+
+10 → 13 → 14 → null
+
+
+/***********************************************CODE***********************************************/
+
+import java.util.*;
+
+/**
+ * class LLNode {
+ *   int val;
+ *   LLNode next;
+ * }
+ */
+class Solution {
+    public LLNode solve(LLNode node) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        LLNode temp = node;
+
+        while(temp != null){
+            if(map.containsKey(temp.val)){
+                map.put(temp.val, map.get(temp.val) + 1);
+            }else{
+                map.put(temp.val, 1);
+            }
+            temp = temp.next;
+        }
+        
+        LLNode head = null;
+        LLNode tail = null;
+        
+        ArrayList<Integer> arrayList = new ArrayList<>(map.keySet());
+        Collections.sort(arrayList);
+        
+        for(int i=0; i<arrayList.size(); i++){
+            int num = arrayList.get(i);
+            if(map.containsKey(num)){
+                while(map.get(num) != 0){
+                    LLNode newNode = new LLNode(num);
+                    if(head == null){
+                        head = tail = newNode;
+                    }else{
+                        tail.next = newNode;
+                        tail = tail.next;
+                    }
+                    map.put(num, map.get(num) - 1);
+                }
+                
+            }
+        }
+        return head;
+    }
+}
