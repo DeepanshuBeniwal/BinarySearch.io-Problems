@@ -1,0 +1,83 @@
+Given two linked lists l0 and l1, return the two linked lists interleaved, starting with l0. If there are leftover nodes in a linked list, they should be added to the end.
+
+Example 1
+Input
+
+l0 = 7 → 8 → 9 → null
+l1 = 1 → 2 → null
+Output
+
+7 → 1 → 8 → 2 → 9 → null
+
+/*********************************************CODE*****************************************************/
+
+import java.util.*;
+
+/**
+ * class LLNode {
+ *   int val;
+ *   LLNode next;
+ * }
+ */
+class Solution {
+    public LLNode solve(LLNode l0, LLNode l1) {
+        LLNode temp0 = l0;
+        LLNode temp1 = l1;
+        LLNode head = null;
+        LLNode node = null;
+        
+        while(temp0 != null && temp1 != null){
+            if(temp0 == l0 && temp1 == l1){
+                LLNode node0 = new LLNode(temp0.val);
+                LLNode node1 = new LLNode(temp1.val);
+                head = node0;
+                head.next = node1;
+                node = node1;
+            }else{
+                LLNode node0 = new LLNode(temp0.val);
+                node.next = node0;
+                node = node.next;
+                LLNode node1 = new LLNode(temp1.val);
+                node.next = node1;
+                node = node.next;
+            }
+            temp0 = temp0.next;
+            temp1 = temp1.next;
+        }
+        
+        while(temp0 != null){
+            LLNode node0 = new LLNode(temp0.val);
+            if(l1 == null){
+                if(temp0 == l0){
+                    head = node0;
+                    node = head;    
+                }else{
+                    node.next = node0;
+                    node = node.next;
+                }
+            }else{
+                node.next = node0;
+                node = node.next;
+            }
+            temp0 = temp0.next;
+        }
+        
+        while(temp1 != null){
+            LLNode node1 = new LLNode(temp1.val);
+            if(l0 == null){
+                if(temp1 == l1){
+                    head = node1;
+                    node = head;     
+                }else{
+                    node.next = node1;
+                    node = node.next;
+                }
+            }else{
+                node.next = node1;
+                node = node.next;
+            }
+            temp1 = temp1.next;
+        }
+        return head;
+    }
+}
